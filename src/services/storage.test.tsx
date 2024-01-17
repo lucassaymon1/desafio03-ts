@@ -1,24 +1,31 @@
-import { changeLocalStorage, createLocalStorage, getAllLocalStorage } from "./storage"
+import {
+	changeLocalStorage,
+	createLocalStorage,
+	getLocalStorage
+} from './storage'
 
-const dioBank = {
-    login: false
+const gitBank = {
+	login: false,
+	email: '',
+	name: '',
+	balance: 0
 }
+describe('localStorage', () => {
+	const mockSetItem = jest.spyOn(Storage.prototype, 'setItem')
 
-describe('storage', () => {
-    const mockSetItem = jest.spyOn(Storage.prototype, 'setItem')
-    it('Deve retornar o objeto no localStorage com a chave diobank', () => {
-        const mockGetItem = jest.spyOn(Storage.prototype, 'getItem')
-        getAllLocalStorage()
-        expect(mockGetItem).toHaveBeenCalledWith('diobank')
-    })
+	it('should return localStorage prototype object', () => {
+		const mockGetItem = jest.spyOn(Storage.prototype, 'getItem')
+		getLocalStorage()
+		expect(mockGetItem).toHaveBeenCalledWith('gitbank')
+	})
 
-    it('Deve criar o objeto no localStorage', () => {
-        createLocalStorage()
-        expect(mockSetItem).toHaveBeenCalledWith('diobank', JSON.stringify(dioBank))
-    })
+	it('should create an object in localStorage', () => {
+		createLocalStorage()
+		expect(mockSetItem).toHaveBeenCalledWith('gitbank', JSON.stringify(gitBank))
+	})
 
-    it('Deve alterar o valor do objeto no localStorage', () => {
-        changeLocalStorage(dioBank)
-        expect(mockSetItem).toHaveBeenCalledWith('diobank', JSON.stringify(dioBank))
-    })
+	it('should update the value on localStorage', () => {
+		changeLocalStorage(gitBank)
+		expect(mockSetItem).toHaveBeenCalledWith('gitbank', JSON.stringify(gitBank))
+	})
 })

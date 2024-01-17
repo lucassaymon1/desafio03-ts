@@ -1,19 +1,25 @@
-interface IDIoBank {
-    login: boolean;
+export interface GitBankProps {
+	login: boolean
+	email: string
+	name: string
+	balance: number
 }
 
-const dioBank = {
-    login: false
+export const gitBank = {
+	login: false,
+	email: '',
+	name: '',
+	balance: 0
 }
 
-export const getAllLocalStorage = (): string | null  => {
-    return localStorage.getItem('diobank')
+export const getLocalStorage = (): string | null => {
+	return localStorage.getItem('gitbank')
 }
 
 export const createLocalStorage = (): void => {
-    localStorage.setItem('diobank', JSON.stringify(dioBank))
+	localStorage.setItem('gitbank', JSON.stringify(gitBank))
 }
 
-export const changeLocalStorage = (dioBank: IDIoBank): void => {
-    localStorage.setItem('diobank', JSON.stringify(dioBank))
+export const changeLocalStorage = (value: GitBankProps): void => {
+	localStorage.setItem('gitbank', JSON.stringify(value))
 }
