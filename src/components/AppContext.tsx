@@ -1,31 +1,37 @@
-import { createContext, useEffect, useState } from "react"
-import { getAllLocalStorage } from "../services/storage"
+import { createContext, useEffect, useState } from 'react'
+import {
+	changeLocalStorage,
+	getLocalStorage,
+	gitBank
+} from '../services/storage'
+import { GitBankProps } from '../services/storage'
 
-interface IAppContext {
-    user: string,
-    isLoggedIn: boolean,
-    setIsLoggedIn: (isLoggedIn: boolean) => void
+interface AppContextProps {
+	user: GitBankProps
+	isLoggedIn: boolean
+	setIsLoggedIn: (isLoggedIn: boolean) => void
 }
-  
-export const AppContext = createContext({} as IAppContext)
-  
+// AppContext pode ser usado como um hook que vai conter o valor armazenado do contexto para qualquer parte englobada da aplicação.
+export const AppContext = createContext({} as AppContextProps)
+
+// AppContext.Provider é a tag criada que irá englobar os componentes que receberão os dados. Semelhante a como funciona o BrowserRouter e o ChakraProvider
 export const AppContextProvider = ({ children }: any) => {
-    const [ isLoggedIn, setIsLoggedIn ] = useState<boolean>(false)
+	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
+	const [user, setUser] = useState<GitBankProps>(gitBank)
 
-    const storage = getAllLocalStorage()
+	useEffect(() => {
+		const storage = getLocalStorage()
+		if (storage) {
+			const storedUser = JSON.parse(storage)
+			setUser(storedUser)
+			setIsLoggedIn(storedUser.login)
+			console.log(user, isLoggedIn)
+		}
+	}, [])
 
-    useEffect(() => {
-      if(storage){
-        const { login } = JSON.parse(storage)
-        setIsLoggedIn(login)
-      }
-    }, [])
-
-    const user = 'nathally'
-  
-    return (
-      <AppContext.Provider value={{ user, isLoggedIn, setIsLoggedIn }}>
-        { children }
-      </AppContext.Provider>
-    )
+	return (
+		<AppContext.Provider value={{ user, isLoggedIn, setIsLoggedIn }}>
+			{children}
+		</AppContext.Provider>
+	)
 }
