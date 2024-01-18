@@ -6,7 +6,7 @@ import { AuthRoutes } from './auth.routes'
 import { AppContext } from '../components/AppContext'
 
 export const AppRoutes = () => {
-	const { isLoggedIn } = useContext(AppContext)
+	const { isLoggedIn, user } = useContext(AppContext)
 
 	return isLoggedIn ? <MainRoutes /> : <AuthRoutes />
 }

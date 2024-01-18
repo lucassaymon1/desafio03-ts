@@ -10,7 +10,11 @@ export const MainRoutes = () => {
 			<Route path="/details/:id" Component={Details} />
 			<Route
 				path="/details/:id"
-				element={<Text fontSize={'4xl'}>Página não encontrada</Text>}
+				element={
+					<Text fontSize={'4xl'} mt={18}>
+						Página não encontrada
+					</Text>
+				}
 			/>
 		</Routes>
 	)
